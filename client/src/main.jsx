@@ -17,16 +17,16 @@ function TaskList() {
     }, []);
 
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault()
         const task = { description, completed: false };
         setDescription("");
-        fetch("/api/tasks", {
+        await fetch("/api/tasks", {
             method: "POST",
+            headers: {"content-type": "application/json"},
             body: JSON.stringify(task)
-        })
-            .then(res => res.json())
-            .then(tasks => setTasks(tasks));
+        });
+        loadTask();
     }
     return <div>
         <h2>Tasks</h2>
