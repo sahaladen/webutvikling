@@ -1,0 +1,68 @@
+import React, {useEffect, useState} from "react";
+import ReactDOM from "react-dom/client";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+function TaskList() {
+    const [tasks, setTasks] = useState( []);
+    const [description, setDescription] = useState("");
+    function loadTask(){
+        fetch("/api/tasks")
+            .then(res => res.json())
+            .then(tasks => setTasks(tasks));
+    }
+
+    useEffect(() => {
+        loadTask();
+    }, []);
+
+
+    function handleSubmit(e){
+        e.preventDefault()
+        const task = { description, completed: false };
+        setDescription("");
+        fetch("/api/tasks", {
+            method: "POST",
+            body: JSON.stringify(task)
+        })
+            .then(res => res.json())
+            .then(tasks => setTasks(tasks));
+    }
+    return <div>
+        <h2>Tasks</h2>
+        {tasks.map(({id, description, completed}) => <label key={id}>
+            <input type="checkbox" checked={completed}
+                   onChange
+                       ={e => setTasks(old => old.map(
+                           task => (task.id === id)
+                       ? {...task, completed: e.target.checked}
+                               : task
+                   ))
+                            }
+            />
+            {description}
+        </label>)}
+        <h2>new task</h2>
+        <form onSubmit={handleSubmit}>
+            <div>
+                description: <input
+                type={"text"}
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+            />
+            </div>
+            <div>
+                <button disabled={!description}>Submit</button>
+            </div>
+        </form>
+    </div>;
+}
+
+
+
+function Application(){
+    return <TaskList/>
+
+}
+
+root.render(<Application/>);
