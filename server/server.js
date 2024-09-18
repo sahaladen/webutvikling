@@ -9,6 +9,9 @@ app.get("/api/tasks", (req,res)=> {
         { id: 3, description: "Complete the exercise", completed: false },
     ])
 })
+
+app.use(express.static("../client/dist"));
+
 app.listen(process.env.PORT || 3000);
 
 
