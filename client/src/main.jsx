@@ -17,6 +17,8 @@ function TaskList() {
     }, []);
 
 
+    //legg til clear button
+    //legg til at check boksen state blir igjen
     async function handleSubmit(e){
         e.preventDefault()
         const task = { description, completed: false };
