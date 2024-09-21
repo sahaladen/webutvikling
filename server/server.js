@@ -14,17 +14,7 @@ app.get("/api/tasks", (req,res)=> {
 })
 
 
-app.put("/api/tasks/:id", (req, res) => {
-    const { id } = req.params;
-    const { completed } = req.body;
-    const task = tasks.find(task => task.id === parseInt(id));
-    if (task) {
-        task.completed = completed;
-        res.sendStatus(200);
-    } else {
-        res.sendStatus(404);
-    }
-});
+
 
 
 
