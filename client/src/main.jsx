@@ -30,18 +30,19 @@ function TaskList() {
         });
         loadTask();
     }
+
+    async function handleCheckChange(e, id) {
+        setTasks(old => old.map(
+            task => (task.id === id)
+                ? {...task, completed: e.target.checked}
+                : task
+        ))
+    }
+
     return <div>
         <h2>Tasks</h2>
         {tasks.map(({id, description, completed}) => <label key={id}>
-            <input type="checkbox" checked={completed}
-                   onChange
-                       ={e => setTasks(old => old.map(
-                           task => (task.id === id)
-                       ? {...task, completed: e.target.checked}
-                               : task
-                   ))
-                            }
-            />
+            <input type="checkbox" checked={completed} onChange={e => handleCheckChange(e, id)} />
             {description}
         </label>)}
         <h2>new task</h2>
