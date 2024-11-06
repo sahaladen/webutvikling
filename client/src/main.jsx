@@ -32,11 +32,12 @@ function TaskList() {
     }
 
     async function handleCheckChange(e, id) {
-        setTasks(old => old.map(
-            task => (task.id === id)
-                ? {...task, completed: e.target.checked}
-                : task
-        ))
+        await fetch(`/api/tasks/${id}`, {
+            method: "PUT",
+            headers: {"content-type": "application/json"},
+            body: JSON.stringify({completed: e.target.checked})
+        });
+        loadTask();
     }
 
     return <div>
